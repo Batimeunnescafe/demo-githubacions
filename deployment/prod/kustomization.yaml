@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kustomize
+commonLabels:
+  app: react-gke
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+images:
+- name: registry.gitlab.com/andres.bmth.bt/the-one-devops-bootcamp/batimeunnescafe/teamone-reactapp-repo
+  newTag: 906f8b84
