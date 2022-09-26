@@ -1,23 +1,35 @@
-# FROM node:current-alpine
+FROM node:16-alpine as build
 
-# WORKDIR /app
+WORKDIR /app
 
-# COPY package*.json ./
+COPY package.json .
 
-# RUN npm install 
+COPY package-lock.json .
 
-# COPY . . /app/
+# COPY .env.development . 
 
-# EXPOSE 3000 80
+# COPY .env.example .
 
-# CMD ["npm", "start"]
+RUN npm install
 
-FROM nginx:alpine
+COPY . .
 
-WORKDIR /usr/share/nginx/html
+EXPOSE 3000
 
-RUN rm -rf ./*
+CMD [ "npm", "start" ]
 
-COPY ./build .
+#Nginx-app
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+FROM nginx:1.16.0-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+#test-tag
