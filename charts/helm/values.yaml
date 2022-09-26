@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   pullPolicy: Always
   repository: batimeunnescafe/demo-githubactions
-  version: master-769b617
+  version: main-c26f4f7
 
 imagePullSecrets: []
 nameOverride: ""
